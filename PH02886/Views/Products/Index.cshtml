@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PH02886.Models.Product>
+
+@{
+    ViewBag.Title = "Sản Phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Danh sách sản phẩm</h2>
+
+
+
+<div class="row">
+@foreach (var item in Model)
+{
+    <div class="col-sm-4">
+        <img src="image/image.jpg" class="img-thumbnail" width="360px" height="206px" /><br />
+        <h1 class="modal-title">
+        @Html.DisplayFor(modelItem => item.prod_name)
+        </h1><br />
+        <div class="btn btn-warning">@Html.ActionLink("Sửa", "Edit", new { id = item.prod_id })</div> |
+        <div class="btn btn-info">@Html.ActionLink("Chi Tiết", "Details", new { id = item.prod_id })</div> |
+        <div class="btn btn-danger">@Html.ActionLink("Xóa", "Delete", new { id = item.prod_id })</div>
+    </div>
+}
+</div>
+<p class="btn btn-success">
+    @Html.ActionLink("Thêm sản phẩm", "Create")
+</p>
+<!--
+<table class="table">
+    <tr>
+        <th>
+            Tên sản phẩm
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th>
+            Hình ảnh
+        </th>
+        <th>
+            Danh Mục
+        </th>
+        <th>
+            Hành động
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.prod_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prod_desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.img)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.cate_name)
+        </td>
+        <td>
+            @Html.ActionLink("Sửa", "Edit", new { id=item.prod_id }) |
+            @Html.ActionLink("Chi Tiết", "Details", new { id=item.prod_id }) |
+            @Html.ActionLink("Xóa", "Delete", new { id=item.prod_id })
+        </td>
+    </tr>
+}
+
+</table>
+    -->

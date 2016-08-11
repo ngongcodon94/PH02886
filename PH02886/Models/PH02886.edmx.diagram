@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="24b1b1e04d444e1ab04ed56a027db6fd" Name="Diagram1">
+        <EntityTypeShape EntityType="PH02886_WEBSHOPModel.Category" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PH02886_WEBSHOPModel.custom" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PH02886_WEBSHOPModel.order" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PH02886_WEBSHOPModel.order_detail" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PH02886_WEBSHOPModel.Product" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="PH02886_WEBSHOPModel.product_category_product" ManuallyRouted="false" />
+        <AssociationConnector Association="PH02886_WEBSHOPModel.client_purchase" ManuallyRouted="false" />
+        <AssociationConnector Association="PH02886_WEBSHOPModel.purchase_purchase_item" ManuallyRouted="false" />
+        <AssociationConnector Association="PH02886_WEBSHOPModel.product_purchase_item" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PH02886_WEBSHOPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="cate_id" />
+          </Key>
+          <Property Name="cate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cate_name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="custom">
+          <Key>
+            <PropertyRef Name="custom_id" />
+          </Key>
+          <Property Name="custom_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="custom_name" Type="varchar" MaxLength="255" />
+          <Property Name="custom_email" Type="varchar" MaxLength="255" />
+          <Property Name="custom_address" Type="nvarchar" MaxLength="50" />
+          <Property Name="custom_phone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_name" Type="varchar" MaxLength="100" />
+          <Property Name="custom_id" Type="int" />
+        </EntityType>
+        <EntityType Name="order_detail">
+          <Key>
+            <PropertyRef Name="oddt_id" />
+          </Key>
+          <Property Name="oddt_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="oddt_price" Type="int" />
+          <Property Name="prod_id" Type="int" />
+          <Property Name="oddt_quanlity" Type="int" />
+          <Property Name="order_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="prod_id" />
+          </Key>
+          <Property Name="prod_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cate_id" Type="int" />
+          <Property Name="prod_name" Type="varchar" MaxLength="255" />
+          <Property Name="prod_desc" Type="varchar" MaxLength="1000" />
+          <Property Name="img" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="client_purchase">
+          <End Role="custom" Type="Self.custom" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="custom">
+              <PropertyRef Name="custom_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="custom_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_category_product">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="cate_id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="cate_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_purchase_item">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="prod_id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="prod_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="purchase_purchase_item">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PH02886_WEBSHOPModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="custom" EntityType="Self.custom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_detail" EntityType="Self.order_detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="client_purchase" Association="Self.client_purchase">
+            <End Role="custom" EntitySet="custom" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="product_category_product" Association="Self.product_category_product">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="product_purchase_item" Association="Self.product_purchase_item">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="purchase_purchase_item" Association="Self.purchase_purchase_item">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PH02886_WEBSHOPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="cate_id" />
+          </Key>
+          <Property Name="cate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cate_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.product_category_product" FromRole="Categories" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="custom">
+          <Key>
+            <PropertyRef Name="custom_id" />
+          </Key>
+          <Property Name="custom_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="custom_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="custom_email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="custom_address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="custom_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="orders" Relationship="Self.client_purchase" FromRole="custom" ToRole="order" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="custom_id" Type="Int32" />
+          <NavigationProperty Name="custom" Relationship="Self.client_purchase" FromRole="order" ToRole="custom" />
+          <NavigationProperty Name="order_detail" Relationship="Self.purchase_purchase_item" FromRole="order" ToRole="order_detail" />
+        </EntityType>
+        <EntityType Name="order_detail">
+          <Key>
+            <PropertyRef Name="oddt_id" />
+          </Key>
+          <Property Name="oddt_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="oddt_price" Type="Int32" />
+          <Property Name="prod_id" Type="Int32" />
+          <Property Name="oddt_quanlity" Type="Int32" />
+          <Property Name="order_id" Type="Int32" />
+          <NavigationProperty Name="order" Relationship="Self.purchase_purchase_item" FromRole="order_detail" ToRole="order" />
+          <NavigationProperty Name="Product" Relationship="Self.product_purchase_item" FromRole="order_detail" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="prod_id" />
+          </Key>
+          <Property Name="prod_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cate_id" Type="Int32" />
+          <Property Name="prod_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="prod_desc" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="img" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Category" Relationship="Self.product_category_product" FromRole="Products" ToRole="Categories" />
+          <NavigationProperty Name="order_detail" Relationship="Self.product_purchase_item" FromRole="Products" ToRole="order_detail" />
+        </EntityType>
+        <Association Name="product_category_product">
+          <End Role="Categories" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="cate_id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="cate_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="client_purchase">
+          <End Role="custom" Type="Self.custom" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="custom">
+              <PropertyRef Name="custom_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="custom_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="purchase_purchase_item">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_purchase_item">
+          <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="prod_id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="prod_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PH02886_WEBSHOPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="customs" EntityType="Self.custom" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="order_detail" EntityType="Self.order_detail" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="product_category_product" Association="Self.product_category_product">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="client_purchase" Association="Self.client_purchase">
+            <End Role="custom" EntitySet="customs" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="purchase_purchase_item" Association="Self.purchase_purchase_item">
+            <End Role="order" EntitySet="orders" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="product_purchase_item" Association="Self.product_purchase_item">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PH02886_WEBSHOPModelStoreContainer" CdmEntityContainer="PH02886_WEBSHOPEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="PH02886_WEBSHOPModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="cate_id" ColumnName="cate_id" />
+                <ScalarProperty Name="cate_name" ColumnName="cate_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customs">
+            <EntityTypeMapping TypeName="PH02886_WEBSHOPModel.custom">
+              <MappingFragment StoreEntitySet="custom">
+                <ScalarProperty Name="custom_id" ColumnName="custom_id" />
+                <ScalarProperty Name="custom_name" ColumnName="custom_name" />
+                <ScalarProperty Name="custom_email" ColumnName="custom_email" />
+                <ScalarProperty Name="custom_address" ColumnName="custom_address" />
+                <ScalarProperty Name="custom_phone" ColumnName="custom_phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="PH02886_WEBSHOPModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="order_name" ColumnName="order_name" />
+                <ScalarProperty Name="custom_id" ColumnName="custom_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_detail">
+            <EntityTypeMapping TypeName="PH02886_WEBSHOPModel.order_detail">
+              <MappingFragment StoreEntitySet="order_detail">
+                <ScalarProperty Name="oddt_id" ColumnName="oddt_id" />
+                <ScalarProperty Name="oddt_price" ColumnName="oddt_price" />
+                <ScalarProperty Name="prod_id" ColumnName="prod_id" />
+                <ScalarProperty Name="oddt_quanlity" ColumnName="oddt_quanlity" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="PH02886_WEBSHOPModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="prod_id" ColumnName="prod_id" />
+                <ScalarProperty Name="cate_id" ColumnName="cate_id" />
+                <ScalarProperty Name="prod_name" ColumnName="prod_name" />
+                <ScalarProperty Name="prod_desc" ColumnName="prod_desc" />
+                <ScalarProperty Name="img" ColumnName="img" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
